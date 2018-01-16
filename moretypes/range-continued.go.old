@@ -1,0 +1,16 @@
+package main
+
+import "fmt"
+
+func main() {
+	pow := make([]int, 10)
+	for i := range pow {
+		pow[i] = 1 << uint(i) // == 2**i why?
+		// << is a binary shift on unsigned 32 bit int i
+		// need to convert to uint, for bitshift to work, compile time error when try on type int
+	}
+	for _, value := range pow { // is '_' special? or would it be the same as using var trash?
+		//fmt.Printf("%d, %d\n", _, value) Looks special: cannot use _ as value
+		fmt.Printf("%d\n", value)
+	}
+}
