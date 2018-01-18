@@ -1,0 +1,32 @@
+package main
+
+import "golang.org/x/tour/pic"
+
+func Pic(dx, dy int) [][]uint8 {
+	//Allocate a 2d slice of slices to work on
+	image := make([][]uint8, dy)
+	for i := 0; i < dy; i++ {
+		image[i] = make([]uint8, dx)
+	}
+
+	//Operate on the slices to create cool effect
+
+	//		for i := 0; i < dx; i++ {
+	//			for j := 0; j < dy; j++ {
+	//				image[i][j] = uint8(i * j)
+	//			}
+	//		}
+
+	// This one is my favorite. can change x to adjust how 'griddy' the image is.
+	x := 2
+	for i := 0; i < dx; i++ {
+		for j := 0; j < dy; j++ {
+			image[i][j] = uint8((i ^ j) * x)
+		}
+	}
+	return image
+}
+
+func main() {
+	pic.Show(Pic)
+}
