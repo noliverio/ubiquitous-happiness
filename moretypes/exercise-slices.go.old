@@ -11,17 +11,30 @@ func Pic(dx, dy int) [][]uint8 {
 
 	//Operate on the slices to create cool effect
 
-	//		for i := 0; i < dx; i++ {
-	//			for j := 0; j < dy; j++ {
-	//				image[i][j] = uint8(i * j)
-	//			}
-	//		}
+	//              for i := 0; i < dx; i++ {
+	//                      for j := 0; j < dy; j++ {
+	//                              image[i][j] = uint8(i * j)
+	//                      }
+	//              }
 
 	// This one is my favorite. can change x to adjust how 'griddy' the image is.
-	x := 2
+	//        x := 2
+	//        for i := 0; i < dx; i++ {
+	//                for j := 0; j < dy; j++ {
+	//                        image[i][j] = uint8((i ^ j) * x)
+	//                }
+	//        }
+
+	// Actually this one is even better!
 	for i := 0; i < dx; i++ {
 		for j := 0; j < dy; j++ {
-			image[i][j] = uint8((i ^ j) * x)
+			if i%5 == 0 {
+				//image[i][j] = uint8(255)
+				image[i][j] = uint8(i * j)
+			} else {
+				image[i][j] = uint8((i ^ j)*2)
+				//image[i][j] = uint8 (0)
+			}
 		}
 	}
 	return image
@@ -30,3 +43,4 @@ func Pic(dx, dy int) [][]uint8 {
 func main() {
 	pic.Show(Pic)
 }
+
