@@ -1,0 +1,35 @@
+package main
+
+import "fmt"
+
+// fibonacci is a function that returns
+// a function that returns an int.
+func fibonacci() func() int {
+	last_number := 0
+	current_number := 0
+	//not a fan of needing an extra var to make it all work.
+	// I want to see if I can do something like python's tuple assignment
+	//	hold := 0
+	return func() int {
+		if last_number == 0 {
+			last_number = 1
+
+			return current_number
+		} else {
+			//			hold = current_number
+			//			current_number = current_number + last_number
+			//			last_number = hold
+			// I can
+			last_number, current_number = current_number, current_number+last_number
+
+			return current_number
+		}
+	}
+}
+
+func main() {
+	f := fibonacci()
+	for i := 0; i < 10; i++ {
+		fmt.Println(f())
+	}
+}

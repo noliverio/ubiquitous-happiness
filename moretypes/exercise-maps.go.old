@@ -1,0 +1,36 @@
+// Return a map with a count of each occurance of a word in a string
+//	FAIL
+//	 f("I am learning Go!") =
+//	  map[string]int{"x":1}
+//	 want:
+//	  map[string]int{"am":1, "learning":1, "Go!":1, "I":1}
+//
+package main
+
+import (
+	//	"golang.org/x/tour/wc"
+	"fmt"
+	"strings"
+)
+
+func WordCount(s string) map[string]int {
+	string_array := strings.Fields(s)
+	m := make(map[string]int)
+
+	for _, word := range string_array {
+		_, exists := m[word]
+		if exists {
+			m[word] += 1
+		} else {
+			m[word] = 1
+		}
+	}
+
+	return m
+}
+
+func main() {
+	//	wc.Test(WordCount)
+	test := WordCount(" hi there hi hi hi user ")
+	fmt.Printf("%q", test)
+}
