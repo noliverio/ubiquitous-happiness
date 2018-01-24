@@ -1,0 +1,25 @@
+package main
+
+import "fmt"
+
+type I interface {
+	M()
+}
+
+type T struct {
+	S string
+}
+
+//Method means type T impliments interface I
+//No need to explicit;y state that.
+
+func (t T) M() {
+	fmt.Println(t.S)
+}
+
+func main() {
+	var i I = T{"Hello"}
+	i.M()
+}
+
+// OK, but what does it gain me?
