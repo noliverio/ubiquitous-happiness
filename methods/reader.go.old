@@ -1,0 +1,25 @@
+package main
+
+import (
+	"fmt"
+	"io"
+	"strings"
+)
+
+func main() {
+	// Create a reader reading from the string provided
+	r := strings.NewReader("Hello, Reader!")
+
+	b := make([]byte, 8)
+	for {
+		// copy as much as possible into b, and save the position
+		// return the number of chars copied
+		// return io.EOF when you try to start reading beyond the end of the string
+		n, err := r.Read(b)
+		fmt.Printf("n = %v err = %v b = %v \n", n, err, b)
+		fmt.Printf("b[:n] = %q\n", b[:n])
+		if err == io.EOF {
+			break
+		}
+	}
+}

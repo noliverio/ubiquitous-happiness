@@ -1,0 +1,47 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+type ErrNegativeSqrt float64
+
+func (e ErrNegativeSqrt) Error() string {
+	return fmt.Sprintf("Error: cannot take sqrt of negative number %g", float64(e))
+}
+
+func approximates(a, b float64) bool {
+	epsilon := 0.0000001
+	diff := math.Abs(a - b)
+
+	if diff < epsilon {
+		return true
+	}
+	return false
+
+}
+
+func Sqrt(x float64) (z float64, e error) {
+	if x < 0 {
+		e := ErrNegativeSqrt(x)
+		return 0, e
+	} else {
+		z := x / 2
+		counter := 0
+		for (counter < 100) && (!approximates(z*z, x)) {
+			z -= (z*z - x) / (2 * x)
+			counter += 1
+		}
+		return z, nil
+	}
+}
+
+func main() {
+	a, myerror := Sqrt(4)
+	if myerror != nil {
+		fmt.Println(myerror)
+	} else {
+		fmt.Println(a)
+	}
+}

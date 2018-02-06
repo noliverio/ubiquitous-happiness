@@ -1,0 +1,32 @@
+// Implement a Reader type that emits an infinite stream of the ASCII character 'A'.
+
+package main
+
+import "fmt"
+
+type MyReader struct{}
+
+// TODO:  Add a Read([]byte) (int, error) method to MyReader.
+
+func (r MyReader) Read(b []byte) (n int, err error) {
+	for index, _ := range b {
+		b[index] = byte(65)
+	}
+	n = len(b)
+	return
+}
+
+func main() {
+	b := make([]byte, 5)
+	r := MyReader{}
+
+	fmt.Println(b)
+
+	num, err := r.Read(b)
+
+	if err == nil {
+		fmt.Println(num)
+		fmt.Println(b)
+		fmt.Printf("b[:num] = %q\n", b[:num])
+	}
+}
