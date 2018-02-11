@@ -1,0 +1,24 @@
+package main
+
+import "fmt"
+
+func main() {
+	// if need to add to channel, but buffer full:
+	// fatal error: all goroutines are asleep - deadlock!
+	// goroutine 1 [chan send]:
+	ch := make(chan int, 2)
+	// if buffer is too large no problem, but likely extra resource usage.
+	ch <- 1
+	ch <- 2
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+	// if try to read from channel, but buffers empty
+	// same error
+	// goroutine 1 [chan receive]:
+
+	// buffer space is reuasble.
+	ch <- 3
+	ch <- 4
+	fmt.Println(<-ch)
+	fmt.Println(<-ch)
+}

@@ -1,0 +1,39 @@
+package main
+
+import (
+	"io"
+	"os"
+	"strings"
+)
+
+type rot13Reader struct {
+	r io.Reader
+}
+
+func (r rot13Reader) Read(b []byte) (n int, err error) {
+	// Read from io.reader and then modified the stream
+	n, err = r.r.Read(b)
+	for i := 0; i < n; i++ {
+		b[i] = rot13(b[i])
+	}
+	return
+}
+
+func rot13(char byte) byte {
+	// ineligant. but I understand it.
+	if char > 65 && char < 77 {
+		return char + 13
+	} else if char > 97 && char < 109 {
+		return char + 13
+	} else if char == 32 {
+		return char
+	} else {
+		return char - 13
+	}
+}
+func main() {
+	s := strings.NewReader("Lbh penpxrq gur pbqr!")
+	r := rot13Reader{s}
+	// read from r and write to stdout
+	io.Copy(os.Stdout, &r)
+}
