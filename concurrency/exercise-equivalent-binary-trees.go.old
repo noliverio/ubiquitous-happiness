@@ -1,0 +1,63 @@
+package main
+
+import (
+	"fmt"
+	"golang.org/x/tour/tree"
+	"reflect"
+)
+
+// tree is defined as:
+//type Tree struct {
+//    Left  *Tree
+//    Value int
+//    Right *Tree
+//}
+
+// Walk walks the tree t sending all values
+// from the tree to the channel ch.
+func Walk(t *tree.Tree, ch chan int) {
+	ch <- t.Value
+	if t.Left != nil {
+		Walk(Left, ch)
+	}
+	if t.Right != nil {
+		Walk(Right, ch)
+	}
+	return
+}
+
+// Same determines whether the trees
+// t1 and t2 contain the same values.
+func Same(t1, t2 *tree.Tree) bool {
+	ch := make(chan int, 10)
+
+	slice1 := make([]int, 10)
+	slice2 := make([]int, 10)
+
+	Walk(t1, ch)
+	for i := 0; i < 10; i++ {
+		tread := <-ch
+		slice1[i] = tread
+	}
+	fmt.Println(slice1)
+	Walk(t2, ch)
+	for i := 0; i < 10; i++ {
+		tread := <-ch
+		slice2[i] = tread
+	}
+	fmt.Println(slice2)
+
+	output := relfect.DeepEquals(slice1, slice2)
+	return output
+}
+
+func main() {
+	ch := make(chan int, 10)
+	Walk(tree.New(1), ch)
+	for i := 0; i < 10; i++ {
+		b := <-ch
+		fmt.Println(b)
+	}
+	t := tree.New(1)
+	fmt.Println(Same(t, t))
+}
